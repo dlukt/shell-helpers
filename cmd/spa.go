@@ -52,8 +52,12 @@ var spaCmd = &cobra.Command{
 		defer cancel()
 
 		appDirArg := "."
-		if len(args) == 1 && strings.TrimSpace(args[0]) != "" {
-			appDirArg = args[0]
+		if len(args) == 1 {
+			trimmed := strings.TrimSpace(args[0])
+			if trimmed == "" {
+				return fmt.Errorf("app-dir argument cannot be empty")
+			}
+			appDirArg = trimmed
 		}
 
 		absAppDir, err := filepath.Abs(appDirArg)
